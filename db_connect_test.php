@@ -8,7 +8,7 @@ $con = db_connect();
 if ($con->query("select * from user")) {
     echo "数据库连接成功";
 }else {
-    echo "数据库链接失败";
+    echo "数据库连接失败";
 }
 
 ?>
