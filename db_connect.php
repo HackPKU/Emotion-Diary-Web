@@ -12,5 +12,3 @@ function db_connect() {
     $con->query("SET NAMES 'UTF8'");
     return $con;
 }
-
-?>
