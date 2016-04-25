@@ -10,9 +10,7 @@
     <h1 align="center">
     <?php
     require_once "db_connect.php";
-    $con = db_connect();
-
-    if ($con->query("select * from user")) {
+    if (!mysqli_error(db_connect())) {
         echo "数据库连接成功";
     }else {
         echo "数据库连接失败";
