@@ -10,6 +10,7 @@
  * Common functions for Emotion Diary API.
  */
 require_once 'api_utilities.php';
+check_version();
 $con = db_connect();
 
 $name = filter($con, $_POST["name"]);
@@ -20,7 +21,7 @@ if (strlen($name) == 0 || strlen($password) == 0) {
     report_error(-1, "参数缺失");
 }
 
-if (!($type == "ios" || $type == "android" || $type == "web")) {
+if (!($type == "ios" || $type == "android" || $type == "web" || $type == "reset")) {
     $type = "unknown";
 }
 
@@ -38,4 +39,6 @@ $userid = $result["userid"];
 $token = random_string();
 $con->query("INSERT INTO token (token, userid, type) VALUES ('$token', '$userid', '$type')");
 check_sql_error($con);
+$_POST["token"] = $token;
+check_login($con);
 report_success(array("token" => $token));

@@ -28,3 +28,7 @@ define('EMOTION_DIARY_DB_HOSTNAME', 'localhost');
 //** Debug settings. **//
 /** Whether server should report errors. */
 define('EMOTION_DIARY_REPORT_ERRORS', false);
+
+//** Version settings. **//
+/** Min supported client version. */
+define('EMOTION_DIARY_MIN_VERSION', 1.0);

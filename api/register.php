@@ -10,6 +10,7 @@
  * Common functions for Emotion Diary API.
  */
 require_once 'api_utilities.php';
+check_version();
 $con = db_connect();
 
 $name = filter($con, $_POST["name"]);
@@ -29,7 +30,6 @@ if (contain_special_chars($name)) {
 if (strlen($password) < 6) {
     report_error(3, "密码过于简单");
 }
-
 if (!($sex == "male" || $sex == "female")) {
     $sex = "secret";
 }
@@ -49,3 +49,4 @@ check_sql_error($con);
 $type = filter($con, $_POST["type"]);
 $result = request_post("/login.php", array("name" => $name, "password" => $password, "type" => $type));
 report_success(array("token" => $result["data"]["token"]));
+
