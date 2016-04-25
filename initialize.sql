@@ -2,38 +2,36 @@
 
 -- Table structure for table `user`
 
-CREATE TABLE `user` (
-  `userid` VARCHAR(16) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user` (
+  `userid` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(16) NOT NULL,
+  `password` VARCHAR(32) NOT NULL,
   `sex` VARCHAR(16) NOT NULL,
   `email` VARCHAR(128) NOT NULL,
-  `icon` VARCHAR(128) NOT NULL,
-  `register_time` DATETIME NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `latest_time` DATETIME NOT NULL DEFAULT '1000-01-01 00:00:00',
-  PRIMARY KEY (`userid`)
+  `icon` VARCHAR(128) NOT NULL DEFAULT 'default.jpg',
+  `register_time` TIMESTAMP NOT NULL DEFAULT NOW(),
+  `latest_time` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW()
 );
 
 -- Table structure for table `token`
 
-CREATE TABLE `token` (
-  `token` VARCHAR(128) NOT NULL,
-  `userid` VARCHAR(16) NOT NULL,
-  `expire_time` DATETIME NOT NULL DEFAULT '1000-01-01 00:00:00',
-  PRIMARY KEY (`token`),
+CREATE TABLE IF NOT EXISTS `token` (
+  `token` VARCHAR(32) NOT NULL PRIMARY KEY,
+  `userid` INTEGER NOT NULL,
+  `type` VARCHAR(16) NOT NULL DEFAULT 'mobile',
+  `create_time` TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY (`userid`) REFERENCES user(`userid`)
 );
 
 -- Table structure for table `diary`
 
-CREATE TABLE `diary` (
-  `diaryid` VARCHAR(16) NOT NULL,
-  `userid` VARCHAR(16) NOT NULL,
+CREATE TABLE IF NOT EXISTS `diary` (
+  `diaryid` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `userid` INTEGER NOT NULL,
   `emotion` SMALLINT NOT NULL,
-  `selfie` VARCHAR(128) NOT NULL,
-  `text` VARCHAR(2000) NOT NULL,
-  `create_time` DATETIME NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `edit_time` DATETIME NOT NULL DEFAULT '1000-01-01 00:00:00',
-  PRIMARY KEY (`diaryid`),
+  `picture` VARCHAR(128) NOT NULL,
+  `text` TEXT NOT NULL,
+  `create_time` TIMESTAMP NOT NULL DEFAULT NOW(),
+  `edit_time` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
   FOREIGN KEY (`userid`) REFERENCES user(`userid`)
 );
-
