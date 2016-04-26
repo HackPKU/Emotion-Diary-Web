@@ -20,9 +20,9 @@ $share_key = filter($con, $_POST["share_key"]);
 // share_key 存在时表明是共享的日记
 if (strlen($share_key) == 0) {
     check_login($con);
-}else {
+} else {
     if (!is_random_string($share_key, 8)) {
-        report_error(1, "该共享不存在");
+        report_error(2, "该共享不存在");
     }
 }
 
@@ -30,13 +30,13 @@ $result = $con->query("SELECT * FROM diary WHERE diaryid = $diaryid");
 check_sql_error($con);
 $result = mysqli_fetch_array($result);
 
-if (strlen($share_key) > 0) {
-    if ($share_key != $result["share_key"]) {
-        report_error(1, "该共享不存在");
-    }
-}else {
+if (strlen($share_key) == 0) {
     if ($userid != $result["userid"]) {
-        report_error(2, "这不是您的日记");
+        report_error(1, "这不是您的日记");
+    }
+} else {
+    if ($share_key != $result["share_key"]) {
+        report_error(2, "该共享不存在");
     }
 }
 

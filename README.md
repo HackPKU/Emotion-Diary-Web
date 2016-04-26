@@ -1,15 +1,15 @@
-## Emotion-Diary-Web
+# Emotion-Diary-Web
 
 Emotion Diary is a lightweight personal diary APP focused on privacy and convenience. Based on the technology of face identification, users can use their face as the key to open the APP. At the same time the smile on your face can also be detected and used as the realtime emotional information, which will be part of their diary notes. After days of recording, you can review your statistics of your emotions, as well as your meaningful life.
 
-### 环境要求
+## 环境要求
 
 * LAMP 或者 WAMP
 * Apache 版本：2.4+
 * MySQL 版本：5.6+
 * PHP 版本：5.5+
 
-### 配置
+## 配置
 **下文中请将单引号及其中的内容替换为自己定义的名称**
 
 * 在 MySQL 中新建数据库和用户，并分配权限

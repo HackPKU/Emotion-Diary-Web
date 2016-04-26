@@ -34,7 +34,7 @@ function check_version($minVersion = EMOTION_DIARY_MIN_VERSION) {
 }
 
 /**
- * @param object $con Database connection
+ * @param mysqli $con Database connection
  */
 function check_login($con) {
     $token = filter($con, $_POST["token"]);
@@ -52,9 +52,9 @@ function check_login($con) {
     $time = strtotime($result["latest_time"]) - time();
     if ($type == "unknown") {
         $time += 24 * 3600; // 1天
-    }else if ($type == "web") {
+    } else if ($type == "web") {
         $time += 3 * 24 * 3600; // 3天
-    }else if ($type == "ios" || $type == "android") {
+    } else if ($type == "ios" || $type == "android") {
         $time += 15 * 24 * 3600; // 15天
     }
     if ($time < 0) {
@@ -69,23 +69,25 @@ function check_login($con) {
 
 /**
  * Filter the HTTP request to prevent SQL injection
- * @param object $con Database connection
+ * @param mysqli $con Database connection
  * @param string $data The data to be filtered
+ * @param bool $report_error Whether php should report potential injection
  * @return string Filtered data
  */
-function filter($con, $data) {
-    if ($data != mysqli_real_escape_string($con, $data)) {
+function filter($con, $data, $report_error = true) {
+    $safe_data = mysqli_real_escape_string($con, $data);
+    if ($report_error && $data != $safe_data) {
         report_error(ERROR_ILLEGAL_PARAMETER);
     }
-    return $data;
+    return $safe_data;
 }
 
 /**
  * @param int $code Error code
  * @param string $message Error message
- * @param bool $shouldExit Whether php should exit after reporting the error
+ * @param bool $should_exit Whether php should exit after reporting the error
  */
-function report_error($code = ERROR_UNKNOWN, $message = "", $shouldExit = true) {
+function report_error($code = ERROR_UNKNOWN, $message = "", $should_exit = true) {
     if ($code == 0) { // 0 为成功代码
         $code = ERROR_UNKNOWN;
     }
@@ -101,7 +103,7 @@ function report_error($code = ERROR_UNKNOWN, $message = "", $shouldExit = true) 
                 $message = "服务器错误";
                 break;
             case ERROR_VERSION_NOT_SUPPORTED:
-                $message = "客户端版本过低, 请升级";
+                $message = "客户端版本过低，请升级";
                 break;
             case ERROR_LOGIN_CHECK_FAILED:
                 $message = "尚未登录";
@@ -114,23 +116,23 @@ function report_error($code = ERROR_UNKNOWN, $message = "", $shouldExit = true) 
         }
     }
     echo json_encode(array("code" => $code, "message" => $message, "data" => null));
-    if ($shouldExit) {
+    if ($should_exit) {
         exit();
     }
 }
 
 /**
- * @param object $con Database connection
- * @param bool $shouldExit Whether php should exit after reporting the error
+ * @param mysqli $con Database connection
+ * @param bool $should_exit Whether php should exit after reporting the error
  */
-function check_sql_error($con, $shouldExit = true) {
+function check_sql_error($con, $should_exit = true) {
     if (mysqli_error($con)) {
         $message = "";
         if (EMOTION_DIARY_REPORT_ERRORS) {
             $message = mysqli_error($con);
         }
         echo json_encode(array("code" => ERROR_SERVER_ERROR, "message" => $message, "data" => null));
-        if ($shouldExit) {
+        if ($should_exit) {
             exit();
         }
     }
