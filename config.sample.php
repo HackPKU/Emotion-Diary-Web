@@ -32,3 +32,6 @@ define('EMOTION_DIARY_REPORT_ERRORS', false);
 //** Version settings. **//
 /** Min supported client version. */
 define('EMOTION_DIARY_MIN_VERSION', 1.0);
+
+//** Time zone settings. **//
+date_default_timezone_set('PRC'); // PRC为“中华人民共和国”

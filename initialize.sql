@@ -4,11 +4,11 @@
 
 CREATE TABLE IF NOT EXISTS `user` (
   `userid` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(16) NOT NULL,
+  `name` VARCHAR(32) NOT NULL,
   `password` VARCHAR(32) NOT NULL,
   `sex` VARCHAR(16) NOT NULL,
   `email` VARCHAR(128) NOT NULL,
-  `icon` VARCHAR(128) NOT NULL DEFAULT 'default.jpg',
+  `icon` VARCHAR(8) NOT NULL,
   `register_time` TIMESTAMP NOT NULL DEFAULT NOW(),
   `latest_time` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW()
 );
@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 CREATE TABLE IF NOT EXISTS `token` (
   `token` VARCHAR(32) NOT NULL PRIMARY KEY,
   `userid` INTEGER NOT NULL,
-  `type` VARCHAR(16) NOT NULL DEFAULT 'mobile',
-  `create_time` TIMESTAMP NOT NULL DEFAULT NOW(),
+  `type` VARCHAR(16) NOT NULL,
+  `latest_time` TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY (`userid`) REFERENCES user(`userid`)
 );
 
@@ -28,9 +28,16 @@ CREATE TABLE IF NOT EXISTS `token` (
 CREATE TABLE IF NOT EXISTS `diary` (
   `diaryid` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `userid` INTEGER NOT NULL,
+  `share_key` VARCHAR(16) DEFAULT NULL,
   `emotion` SMALLINT NOT NULL,
-  `picture` VARCHAR(128) NOT NULL,
+  `selfie` VARCHAR(8) NOT NULL,
+  `images` VARCHAR(128) NOT NULL,
+  `tags` VARCHAR(512) NOT NULL,
   `text` TEXT NOT NULL,
+  `location_name` VARCHAR(128) NOT NULL,
+  `location_long` DOUBLE NOT NULL,
+  `location_lat` DOUBLE NOT NULL,
+  `weather` VARCHAR(32) NOT NULL,
   `create_time` TIMESTAMP NOT NULL DEFAULT NOW(),
   `edit_time` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
   FOREIGN KEY (`userid`) REFERENCES user(`userid`)

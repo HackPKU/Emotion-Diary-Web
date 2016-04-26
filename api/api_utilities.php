@@ -6,6 +6,14 @@
  * Time: 下午2:27
  */
 
+//** Error codes. **//
+define('ERROR_UNKNOWN', -110);
+define('ERROR_ILLEGAL_PARAMETER', -100);
+define('ERROR_SERVER_ERROR', -50);
+define('ERROR_VERSION_NOT_SUPPORTED', -10);
+define('ERROR_LOGIN_CHECK_FAILED', -5);
+define('ERROR_MISSING_PARAMETER', -1);
+
 require_once '../db_connect.php';
 
 /**
@@ -21,7 +29,7 @@ if (!EMOTION_DIARY_REPORT_ERRORS) {
 function check_version($minVersion = EMOTION_DIARY_MIN_VERSION) {
     $version = floatval($_POST["version"]);
     if ($version < $minVersion) {
-        report_error(-10, "客户端版本过低, 请升级");
+        report_error(ERROR_VERSION_NOT_SUPPORTED);
     }
 }
 
@@ -30,27 +38,32 @@ function check_version($minVersion = EMOTION_DIARY_MIN_VERSION) {
  */
 function check_login($con) {
     $token = filter($con, $_POST["token"]);
-    $userid = filter($con, $_POST["userid"]);
+    $userid = intval(filter($con, $_POST["userid"]));
+    if (strlen($token) == 0 || strlen($userid) == 0) {
+        report_error(ERROR_MISSING_PARAMETER);
+    }
     $result = $con->query("SELECT * FROM token WHERE userid = '$userid' AND token = '$token'");
     check_sql_error($con);
     if (mysqli_affected_rows($con) == 0) {
-        report_error(-5, "尚未登录");
+        report_error(ERROR_LOGIN_CHECK_FAILED);
     }
     $result = mysqli_fetch_array($result);
     $type = $result["type"];
-    $time = strtotime($result["create_time"]) - time();
-    if ($type == "web") {
+    $time = strtotime($result["latest_time"]) - time();
+    if ($type == "unknown") {
+        $time += 24 * 3600; // 1天
+    }else if ($type == "web") {
         $time += 3 * 24 * 3600; // 3天
     }else if ($type == "ios" || $type == "android") {
         $time += 15 * 24 * 3600; // 15天
     }
     if ($time < 0) {
-        report_error(-5, "会话超时, 请重新登录");
+        report_error(ERROR_LOGIN_CHECK_FAILED, "会话超时, 请重新登录");
     }
     
     // 更新 token
     $nowTime = date("Y/m/d G:i:s", time());
-    $con->query("UPDATE token set create_time = '$nowTime' WHERE userid = '$userid' AND token = '$token'");
+    $con->query("UPDATE token set latest_time = '$nowTime' WHERE userid = '$userid' AND token = '$token'");
     check_sql_error($con);
 }
 
@@ -62,7 +75,7 @@ function check_login($con) {
  */
 function filter($con, $data) {
     if ($data != mysqli_real_escape_string($con, $data)) {
-        report_error(-100, "参数中含有非法字符");
+        report_error(ERROR_ILLEGAL_PARAMETER);
     }
     return $data;
 }
@@ -72,9 +85,33 @@ function filter($con, $data) {
  * @param string $message Error message
  * @param bool $shouldExit Whether php should exit after reporting the error
  */
-function report_error($code = -1, $message = "未知错误", $shouldExit = true) {
+function report_error($code = ERROR_UNKNOWN, $message = "", $shouldExit = true) {
     if ($code == 0) { // 0 为成功代码
-        $code = -1;
+        $code = ERROR_UNKNOWN;
+    }
+    if (strlen($message) == 0) {
+        switch ($code) {
+            case ERROR_UNKNOWN:
+                $message = "未知错误";
+                break;
+            case ERROR_ILLEGAL_PARAMETER:
+                $message = "参数中含有非法字符";
+                break;
+            case ERROR_SERVER_ERROR:
+                $message = "服务器错误";
+                break;
+            case ERROR_VERSION_NOT_SUPPORTED:
+                $message = "客户端版本过低, 请升级";
+                break;
+            case ERROR_LOGIN_CHECK_FAILED:
+                $message = "尚未登录";
+                break;
+            case ERROR_MISSING_PARAMETER:
+                $message = "参数缺失";
+                break;
+            default:
+                break;
+        }
     }
     echo json_encode(array("code" => $code, "message" => $message, "data" => null));
     if ($shouldExit) {
@@ -88,11 +125,11 @@ function report_error($code = -1, $message = "未知错误", $shouldExit = true)
  */
 function check_sql_error($con, $shouldExit = true) {
     if (mysqli_error($con)) {
-        $message = "数据库错误";
+        $message = "";
         if (EMOTION_DIARY_REPORT_ERRORS) {
             $message = mysqli_error($con);
         }
-        echo json_encode(array("code" => -1, "message" => $message, "data" => null));
+        echo json_encode(array("code" => ERROR_SERVER_ERROR, "message" => $message, "data" => null));
         if ($shouldExit) {
             exit();
         }
@@ -158,10 +195,20 @@ function random_string($length = 32) {
         $length = 1;
     }
     $str = "";
-    $strPol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
-    $max = strlen($strPol) - 1;
+    $str_pol = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $max = strlen($str_pol) - 1;
     for($i = 0; $i < $length; $i++) {
-        $str .= $strPol[rand(0, $max)];
+        $str .= $str_pol[rand(0, $max)];
     }
     return $str;
+}
+
+/**
+ * @param string $data The data to be checked
+ * @param int $length The max length of the data
+ * @return bool Whether the data is a random string
+ * @see random_string()
+ */
+function is_random_string($data, $length = 32) {
+    return (preg_match("/^[0-9a-zA-Z]{0,$length}$/",$data) > 0);
 }
