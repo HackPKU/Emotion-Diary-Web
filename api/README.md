@@ -95,3 +95,31 @@
 * `weather` 天气
 * `create_time` 创建日期
 * `edit_time` 修改日期
+
+### 分享日记
+
+###### 网址
+
+* `/api/share_diary.php`
+
+###### 参数
+
+* `diaryid` 日记 ID
+
+###### 返回
+
+* `share_key` 分享秘钥，有此秘钥可不登陆查看日记，参考查看日记 API 说明
+
+### 取消分享日记
+
+###### 网址
+
+* `/api/unshare_diary.php`
+
+###### 参数
+
+* `diaryid` 日记 ID
+
+###### 返回
+
+* 无

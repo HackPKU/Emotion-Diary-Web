@@ -6,6 +6,9 @@
  * Time: 下午4:32
  */
 
+/**
+ * Common functions for Emotion Diary API.
+ */
 require_once 'api_utilities.php';
 check_version();
 $con = db_connect();
