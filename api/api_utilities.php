@@ -30,7 +30,8 @@ function check_version($minVersion = EMOTION_DIARY_MIN_VERSION) {
  */
 function check_login($con) {
     $token = filter($con, $_POST["token"]);
-    $result = $con->query("SELECT * FROM token WHERE token = '$token'");
+    $userid = filter($con, $_POST["userid"]);
+    $result = $con->query("SELECT * FROM token WHERE userid = '$userid' AND token = '$token'");
     check_sql_error($con);
     if (mysqli_affected_rows($con) == 0) {
         report_error(-5, "尚未登录");
@@ -49,7 +50,7 @@ function check_login($con) {
     
     // 更新 token
     $nowTime = date("Y/m/d G:i:s", time());
-    $con->query("UPDATE token set create_time = '$nowTime' WHERE token = '$token'");
+    $con->query("UPDATE token set create_time = '$nowTime' WHERE userid = '$userid' AND token = '$token'");
     check_sql_error($con);
 }
 
@@ -112,6 +113,7 @@ function report_success($data = null) {
  */
 function request_post($dir, $post) {
     $post["version"] = $_POST["version"];
+    $post["userid"] = $_POST["userid"];
     $post["token"] = $_POST["token"];
     $url = dirname("http://" . $_SERVER['SERVER_NAME'] . $_SERVER["REQUEST_URI"]) . $dir;
     $options = array('http' => array(

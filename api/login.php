@@ -39,6 +39,4 @@ $userid = $result["userid"];
 $token = random_string();
 $con->query("INSERT INTO token (token, userid, type) VALUES ('$token', '$userid', '$type')");
 check_sql_error($con);
-$_POST["token"] = $token;
-check_login($con);
 report_success(array("token" => $token));
