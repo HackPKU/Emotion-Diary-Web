@@ -192,7 +192,7 @@ function is_url($data) {
  * @param int $length Length of the random string
  * @return string The generated random string
  */
-function random_string($length = 32) {
+function random_string($length = 16) {
     if ($length <= 0) {
         $length = 1;
     }
@@ -211,6 +211,6 @@ function random_string($length = 32) {
  * @return bool Whether the data is a random string
  * @see random_string()
  */
-function is_random_string($data, $length = 32) {
+function is_random_string($data, $length = 16) {
     return (preg_match("/^[0-9a-zA-Z]{0,$length}$/",$data) > 0);
 }
