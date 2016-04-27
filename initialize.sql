@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Table structure for table `token`
 
 CREATE TABLE IF NOT EXISTS `token` (
-  `token` VARCHAR(32) NOT NULL PRIMARY KEY,
+  `token` VARCHAR(16) NOT NULL PRIMARY KEY,
   `userid` INTEGER NOT NULL,
   `type` VARCHAR(16) NOT NULL,
   `latest_time` TIMESTAMP NOT NULL DEFAULT NOW(),

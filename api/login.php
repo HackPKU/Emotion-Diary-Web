@@ -29,7 +29,7 @@ if (!($type == "ios" || $type == "android" || $type == "web" || $type == "reset"
 $result = null;
 if (strlen($name) > 0) {
     $result = $con->query("SELECT * FROM user WHERE name = '$name'");
-}else {
+} else {
     $result = $con->query("SELECT * FROM user WHERE email = '$email'");
 }
 check_sql_error($con);
@@ -42,7 +42,12 @@ if (strtoupper($password) != strtoupper($result["password"])) {
 }
 
 $userid = $result["userid"];
-$token = random_string();
+$token = null;
+do {
+    $token = random_string();
+    $con->query("SELECT * FROM token WHERE token = '$token'");
+    check_sql_error($con);
+} while (mysqli_affected_rows($con) > 0);
 $con->query("INSERT INTO token (token, userid, type) VALUES ('$token', '$userid', '$type')");
 check_sql_error($con);
 report_success(array("userid" => $userid, "token" => $token));
