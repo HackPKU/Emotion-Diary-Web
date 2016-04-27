@@ -32,7 +32,7 @@ $result = mysqli_fetch_array($result);
 
 if (strlen($share_key) == 0) {
     if ($userid != $result["userid"]) {
-        report_error(1, "这不是您的日记");
+        report_error(1, "该日记不存在");
     }
 } else {
     if ($share_key != $result["share_key"]) {

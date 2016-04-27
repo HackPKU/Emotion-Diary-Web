@@ -115,7 +115,7 @@ function report_error($code = ERROR_UNKNOWN, $message = "", $should_exit = true)
                 break;
         }
     }
-    echo json_encode(array("code" => $code, "message" => $message, "data" => null));
+    echo json_encode(array("code" => $code, "message" => $message));
     if ($should_exit) {
         exit();
     }
@@ -131,7 +131,7 @@ function check_sql_error($con, $should_exit = true) {
         if (EMOTION_DIARY_REPORT_ERRORS) {
             $message = mysqli_error($con);
         }
-        echo json_encode(array("code" => ERROR_SERVER_ERROR, "message" => $message, "data" => null));
+        echo json_encode(array("code" => ERROR_SERVER_ERROR, "message" => $message));
         if ($should_exit) {
             exit();
         }
@@ -142,7 +142,7 @@ function check_sql_error($con, $should_exit = true) {
  * @param mixed $data Data to return
  */
 function report_success($data = null) {
-    echo json_encode(array("code" => 0, "message" => null, "data" => $data));
+    echo json_encode(array("code" => 0, "data" => $data));
 }
 
 /**

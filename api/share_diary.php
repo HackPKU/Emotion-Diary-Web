@@ -26,7 +26,7 @@ check_sql_error($con);
 $result = mysqli_fetch_array($result);
 
 if ($userid != $result["userid"]) {
-    report_error(1, "这不是您的日记");
+    report_error(1, "该日记不存在");
 }
 if (strlen($result["share_key"]) > 0) {
     report_error(2, "该日记已分享");

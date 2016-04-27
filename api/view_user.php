@@ -31,7 +31,6 @@ $return = array(
     "name" => $result["name"],
     "sex" => $result["sex"],
     "icon" => $result["icon"],
-    "email" => ""
 );
 if ($userid == $result["userid"]) { // 自己才能查看邮箱
     $return["email"] = $result["email"];

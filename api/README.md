@@ -130,7 +130,8 @@
 
 ###### 参数
 
-* `diaryid`、`share_key` 二选一，如果使用 `share_key` 作为参数，该请求不需要 `userid` 和 `token` 字段
+* `diaryid` 日记 ID
+* `share_key` 分享密钥，可为空，如果该参数存在，此次请求不需要 `userid` 和 `token` 字段
 
 ###### 返回
 
@@ -145,6 +146,35 @@
 * `weather` 天气
 * `create_time` 创建日期
 * `edit_time` 修改日期
+
+## 修改日记
+
+###### 网址
+
+* `/api/edit_diary.php`
+
+###### 参数
+
+* `diaryid` 日记 ID
+* 其它参数参考发布日记 API 说明
+
+###### 返回
+
+* 无
+
+## 删除日记
+
+###### 网址
+
+* `/api/delete_diary.php`
+
+###### 参数
+
+* `diaryid` 日记 ID
+
+###### 返回
+
+* 无
 
 ## 分享日记
 
