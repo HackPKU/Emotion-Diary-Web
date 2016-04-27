@@ -14,7 +14,6 @@ check_version();
 $con = db_connect();
 check_login($con);
 
-$image = filter($con, $_POST["image"]);
 $type = filter($con, $_POST["type"]);
 
 $max_length = 0;
@@ -32,4 +31,4 @@ switch ($type) {
         report_error(ERROR_ILLEGAL_PARAMETER, "图片类型不合法");
         break;
 }
-save_image($image, $type, $max_length);
+save_image($_POST["image"], $type, $max_length);
