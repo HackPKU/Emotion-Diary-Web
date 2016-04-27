@@ -21,9 +21,9 @@ $selfie = filter($con, $_POST["selfie"]);
 $images = filter($con, $_POST["images"]);
 $tags = filter($con, $_POST["tags"]);
 $text = filter($con, $_POST["text"], false);
-$location_name = filter($con, $_POST["location_name"]);
-$location_long = floatval(filter($con, $_POST["location_long"]));
-$location_lat = floatval(filter($con, $_POST["location_lat"]));
+$place_name = filter($con, $_POST["place_name"]);
+$place_long = floatval(filter($con, $_POST["place_long"]));
+$place_lat = floatval(filter($con, $_POST["place_lat"]));
 $weather = filter($con, $_POST["weather"]);
 $function = filter($con, $_POST["function"]);
 
@@ -50,10 +50,10 @@ if (strlen($text) == 0) {
 if (strlen($text) > 65535) {
     report_error(6, "正文过长");
 }
-if (strlen($location_name) > 128) {
+if (strlen($place_name) > 128) {
     report_error(7, "地点过长");
 }
-if ($location_lat < -90 || $location_lat > 90 || $location_long < -180 || $location_long > 180) {
+if ($place_lat < -90 || $place_lat > 90 || $place_long < -180 || $place_long > 180) {
     report_error(8, "地理位置不正确");
 }
 if (strlen($weather) > 32) {
@@ -67,13 +67,13 @@ if ($function == "edit") {
         report_error(10, "该日记不存在");
     }
     $updates = "emotion = '$emotion', selfie = '$selfie', images = '$image', tags = '$tags', text = '$text'";
-    $updates .= ", location_name = '$location_name', location_long = '$location_long', location_lat = '$location_lat', weather = '$weather'";
+    $updates .= ", place_name = '$place_name', place_long = '$place_long', place_lat = '$place_lat', weather = '$weather'";
     $con->query("UPDATE diary SET $updates WHERE diaryid = '$diaryid'");
     check_sql_error($con);
     report_success();
 } else {
-    $cols = "(userid, emotion, selfie, images, tags, text, location_name, location_long, location_lat, weather)";
-    $vals = "('$userid', '$emotion', '$selfie', '$images', '$tags', '$text', '$location_name', '$location_long', '$location_lat', '$weather')";
+    $cols = "(userid, emotion, selfie, images, tags, text, place_name, place_long, place_lat, weather)";
+    $vals = "('$userid', '$emotion', '$selfie', '$images', '$tags', '$text', '$place_name', '$place_long', '$place_lat', '$weather')";
     $con->query("INSERT INTO diary $cols VALUES $vals");
     check_sql_error($con);
     report_success(array("diaryid" => mysqli_insert_id($con)));
