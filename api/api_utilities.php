@@ -12,6 +12,7 @@ define('ERROR_ILLEGAL_PARAMETER', -100);
 define('ERROR_SERVER_ERROR', -50);
 define('ERROR_VERSION_NOT_SUPPORTED', -10);
 define('ERROR_LOGIN_CHECK_FAILED', -5);
+define('ERROR_OPERATION_TOO_FREQUENT', -3);
 define('ERROR_MISSING_PARAMETER', -1);
 
 require_once '../db_connect.php';
@@ -50,6 +51,7 @@ function check_login($con) {
     $result = mysqli_fetch_array($result);
     $type = $result["type"];
     $time = strtotime($result["latest_time"]) - time();
+    $temp_time = $time;
     if ($type == "unknown") {
         $time += 24 * 3600; // 1天
     } else if ($type == "web") {
@@ -60,11 +62,15 @@ function check_login($con) {
     if ($time < 0) {
         report_error(ERROR_LOGIN_CHECK_FAILED, "会话超时, 请重新登录");
     }
-    
+
     // 更新 token
     $nowTime = date("Y/m/d G:i:s", time());
     $con->query("UPDATE token set latest_time = '$nowTime' WHERE userid = '$userid' AND token = '$token'");
     check_sql_error($con);
+    
+    if ($temp_time > -1) {
+        report_error(ERROR_OPERATION_TOO_FREQUENT, "操作过于频繁,请稍后再试");
+    }
 }
 
 /**
