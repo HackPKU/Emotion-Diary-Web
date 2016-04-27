@@ -78,7 +78,7 @@
 
 * `name` 用户名
 * `sex` 性别，其值为 `male` `female` `secret` 之一
-* `icon` 头像文件名
+* `icon` 头像文件名，对应文件为 `/images/icon/xxx.jpg`
 * `email` 邮箱，只有当查看的是自己的信息时才会返回
 
 ## 修改用户信息
@@ -136,8 +136,8 @@
 ###### 返回
 
 * `emotion` 情绪值
-* `selfie` 自拍像文件名
-* `images` 图片文件名数组
+* `selfie` 自拍像文件名，对应文件为 `/images/selfie/xxx.jpg`
+* `images` 图片文件名数组，每一个文件名对应文件为 `/images/image/xxx.jpg`
 * `tags` 标签数组
 * `text` 日记正文
 * `place_name` 地点名称
@@ -163,7 +163,7 @@
 * 返回一个数组，每个元素代表一个日记，说明如下
 	* `diaryid` 日记 ID
 	* `emotion` 情绪值
-	* `selfie` 自拍像文件名
+	* `selfie` 自拍像文件名，参考查看日记 API 说明
 	* `has_image` 是否有图片
 	* `has_tag` 是否有标签
 	* `short_text` 日记正文，取前140字节
@@ -227,3 +227,18 @@
 ###### 返回
 
 * 无
+
+## 上传图片
+
+###### 网址
+
+* `/api/upload_image.php`
+
+###### 参数
+
+* `image` 图片字符串，BASE64 编码
+* `type` 图片类型，其值为 `icon` `selfie` `image` 之一，分别对应用户头像，自拍，日记图片，大小限制分别为 50KB，100KB，200KB
+
+###### 返回
+
+* `file_name` 头像文件名

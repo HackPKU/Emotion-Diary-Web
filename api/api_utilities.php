@@ -214,3 +214,34 @@ function random_string($length = 16) {
 function is_random_string($data, $length = 16) {
     return (preg_match("/^[0-9a-zA-Z]{0,$length}$/",$data) > 0);
 }
+
+/**
+ * @param string $image BASE64 Encoded image string
+ * @param string $type Image type, also is the directory's name
+ * @param int $max_length Max image length, in KB
+ * @return string
+ */
+function save_image($image, $type, $max_length = 200) {
+    $image_string = base64_decode($image);
+    if (strlen($image_string) > $max_length * 1024) {
+        report_error(1, "图片大小超过了" . $max_length . "KB");
+    }
+    if (!imagecreatefromstring($image_string)) {
+        report_error(2, "图片解析失败");
+    }
+    $dir = "../images/$type";
+    if (!is_dir($dir)) {
+        if(!mkdir($dir)) {
+            report_error(3, "创建目录失败");
+        }
+    }
+    $file_name = null;
+    do {
+        $file_name = random_string(8);
+    } while (file_exists($dir . "/" . $file_name . ".jpg"));
+    if (file_put_contents($dir . "/" . $file_name . ".jpg", $image_string)){
+        report_success(array("file_name" => $file_name));
+    } else {
+        report_error(4, "图片储存失败");
+    }
+}
