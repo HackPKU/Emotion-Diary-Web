@@ -20,6 +20,7 @@ $new_password = filter($con, $_POST["new_password"]);
 $sex = filter($con, $_POST["sex"]);
 $email = filter($con, $_POST["email"]);
 $icon = filter($con, $_POST["icon"]);
+$faceid = filter($con, $_POST["faceid"]);
 $function = filter($con, $_POST["function"]);
 
 if ($function == "edit") {
@@ -77,9 +78,9 @@ if ($function == "edit") {
     if (strlen($new_password) == 0) {
         $new_password = $password;
     }
-    $con->query("UPDATE user SET name = '$name', password = '$new_password', sex = '$sex', email = '$email', icon = '$icon' WHERE userid = '$userid'");
+    $con->query("UPDATE user SET name = '$name', password = '$new_password', sex = '$sex', email = '$email', icon = '$icon', faceid = '$faceid' WHERE userid = '$userid'");
 } else {
-    $con->query("INSERT INTO user (name, password, sex, email, icon) VALUES ('$name', '$password', '$sex', '$email', '$icon')");
+    $con->query("INSERT INTO user (name, password, sex, email, icon, faceid) VALUES ('$name', '$password', '$sex', '$email', '$icon', '$faceid')");
 }
 check_sql_error($con);
 
