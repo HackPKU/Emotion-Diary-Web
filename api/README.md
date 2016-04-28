@@ -147,7 +147,6 @@
 * `place_lat` 地点纬度
 * `weather` 天气
 * `create_time` 创建日期
-* `edit_time` 修改日期
 
 ## 同步日记
 
@@ -172,21 +171,6 @@
 	* `place_name` 地点名称
 	* `weather` 天气
 	* `create_time` 创建日期
-
-## 修改日记
-
-###### 网址
-
-* `/api/edit_diary.php`
-
-###### 参数
-
-* `diaryid` 日记 ID
-* 其它参数参考发布日记 API 说明
-
-###### 返回
-
-* 无
 
 ## 删除日记
 

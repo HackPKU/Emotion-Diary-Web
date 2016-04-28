@@ -45,6 +45,5 @@ CREATE TABLE IF NOT EXISTS `diary` (
   `place_lat` DOUBLE NOT NULL,
   `weather` VARCHAR(32) NOT NULL,
   `create_time` TIMESTAMP NOT NULL DEFAULT NOW(),
-  `edit_time` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
   FOREIGN KEY (`userid`) REFERENCES user(`userid`)
 );

@@ -26,7 +26,6 @@ $place_long = floatval(filter($con, $_POST["place_long"]));
 $place_lat = floatval(filter($con, $_POST["place_lat"]));
 $weather = filter($con, $_POST["weather"]);
 $create_time = filter($con, $_POST["create_time"]);
-$function = filter($con, $_POST["function"]);
 
 if ($emotion < 0 || $emotion > 100) {
     report_error(1, "心情值不正确");
@@ -68,21 +67,8 @@ if (strlen($create_time) > 0) {
     $create_time = date("Y-m-d G:i:s", time());
 }
 
-if ($function == "edit") {
-    $con->query("SELECT * FROM diary WHERE userid = '$userid' AND diaryid = $diaryid");
-    check_sql_error($con);
-    if (mysqli_affected_rows($con) == 0) {
-        report_error(11, "该日记不存在");
-    }
-    $updates = "emotion = '$emotion', selfie = '$selfie', images = '$image', tags = '$tags', text = '$text'";
-    $updates .= ", place_name = '$place_name', place_long = '$place_long', place_lat = '$place_lat', weather = '$weather', create_time = '$create_time'";
-    $con->query("UPDATE diary SET $updates WHERE diaryid = '$diaryid'");
-    check_sql_error($con);
-    report_success();
-} else {
-    $cols = "(userid, emotion, selfie, images, tags, text, place_name, place_long, place_lat, weather, create_time)";
-    $vals = "('$userid', '$emotion', '$selfie', '$images', '$tags', '$text', '$place_name', '$place_long', '$place_lat', '$weather', '$create_time')";
-    $con->query("INSERT INTO diary $cols VALUES $vals");
-    check_sql_error($con);
-    report_success(array("diaryid" => mysqli_insert_id($con)));
-}
+$cols = "(userid, emotion, selfie, images, tags, text, place_name, place_long, place_lat, weather, create_time)";
+$vals = "('$userid', '$emotion', '$selfie', '$images', '$tags', '$text', '$place_name', '$place_long', '$place_lat', '$weather', '$create_time')";
+$con->query("INSERT INTO diary $cols VALUES $vals");
+check_sql_error($con);
+report_success(array("diaryid" => mysqli_insert_id($con)));

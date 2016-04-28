@@ -53,6 +53,5 @@ $return = array(
     "place_lat" => $result["place_lat"],
     "weather" => $result["weather"],
     "create_time" => $result["create_time"],
-    "edit_time" => $result["edit_time"]
 );
 report_success($return);
