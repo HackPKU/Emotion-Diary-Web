@@ -64,7 +64,7 @@ function check_login($con) {
     }
 
     // 更新 token
-    $nowTime = date("Y/m/d G:i:s", time());
+    $nowTime = date("Y-m-d G:i:s", time());
     $con->query("UPDATE token set latest_time = '$nowTime' WHERE userid = '$userid' AND token = '$token'");
     check_sql_error($con);
     

@@ -29,7 +29,7 @@ $conditions = "YEAR(create_time) = '$year'";
 if ($month > 0) {
     $conditions .= " AND MONTH(create_time) = '$month'";
 }
-$result = $con->query("SELECT * FROM diary WHERE userid = '$userid' AND $conditions");
+$result = $con->query("SELECT * FROM diary WHERE userid = '$userid' AND $conditions ORDER BY create_time");
 check_sql_error($con);
 $return = array();
 while ($diary = mysqli_fetch_array($result)) {
