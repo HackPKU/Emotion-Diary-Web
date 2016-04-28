@@ -23,6 +23,12 @@ CREATE TABLE IF NOT EXISTS `token` (
   FOREIGN KEY (`userid`) REFERENCES user(`userid`)
 );
 
+-- Token clearing schedule
+
+SET GLOBAL event_scheduler = 1;
+CREATE EVENT IF NOT EXISTS `clear_token` ON SCHEDULE EVERY 1 DAY
+DO DELETE FROM token WHERE TO_DAYS(NOW()) - TO_DAYS(latest_time) > 30;
+
 -- Table structure for table `diary`
 
 CREATE TABLE IF NOT EXISTS `diary` (
@@ -39,6 +45,5 @@ CREATE TABLE IF NOT EXISTS `diary` (
   `place_lat` DOUBLE NOT NULL,
   `weather` VARCHAR(32) NOT NULL,
   `create_time` TIMESTAMP NOT NULL DEFAULT NOW(),
-  `edit_time` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
   FOREIGN KEY (`userid`) REFERENCES user(`userid`)
 );
