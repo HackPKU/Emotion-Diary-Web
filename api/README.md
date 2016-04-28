@@ -27,7 +27,7 @@
 * `sex` 性别，其值为 `male` `female` 之一，可为空，为空表示保密
 * `email` 邮箱，可为空，不能超过 128 字节
 * `icon` 头像文件名，可为空
-* `faceid` Face++ 产生的人脸识别 ID，可为空
+* `faceid` Face++ 产生的人脸识别 ID，即返回的 `person_id` 字段，可为空
 * `type` 表明客户端的平台，其值为 `ios` `android` `web` 之一
 
 ###### 返回
