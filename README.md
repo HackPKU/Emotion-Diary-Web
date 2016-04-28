@@ -25,3 +25,9 @@ Emotion Diary is a lightweight personal diary APP focused on privacy and conveni
 * 运行 `db_connect_test.php` 以测试数据库配置是否成功
 * 终端下为 `images `文件夹赋予权限
 	* `chmod -R 777 images`
+
+## Face++ API 使用规范
+
+* `API_KEY` 和 `API_SECRET` 请向开发者索取
+* 人脸创建时使用有意义的 `PersonName`，可以是用户的账户名，`Tag` 使用 `iOS` `Android` 两者之一
+* 人脸创建的结果存于组中，开发时使用 `EmotionDiaryTest` 组，发布时使用 `EmotionDiary` 组
