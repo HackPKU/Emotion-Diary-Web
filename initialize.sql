@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 CREATE TABLE IF NOT EXISTS `token` (
   `token` VARCHAR(16) NOT NULL PRIMARY KEY,
   `userid` INTEGER NOT NULL,
-  `type` VARCHAR(16) NOT NULL,
+  `platform` VARCHAR(16) NOT NULL,
   `latest_time` TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY (`userid`) REFERENCES user(`userid`)
 );

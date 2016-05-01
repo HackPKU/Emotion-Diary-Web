@@ -87,7 +87,7 @@ check_sql_error($con);
 if ($function == "edit") {
     report_success();
 } else {
-    $type = filter($con, $_POST["type"]);
-    $result = request_post("/login.php", array("name" => $name, "password" => $password, "type" => $type));
+    $platform = filter($con, $_POST["platform"]);
+    $result = request_post("/login.php", array("name" => $name, "password" => $password, "platform" => $platform));
     report_success(array("userid" => $result["data"]["userid"], "token" => $result["data"]["token"]));
 }
