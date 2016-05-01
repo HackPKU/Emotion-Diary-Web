@@ -39,7 +39,8 @@ function check_version($minVersion = EMOTION_DIARY_MIN_VERSION) {
 function check_login($con) {
     $token = filter($con, $_POST["token"]);
     $userid = intval(filter($con, $_POST["userid"]));
-    if (strlen($token) == 0 || strlen($userid) == 0) {
+    $platform = filter($con, $_POST["platform"]);
+    if (strlen($token) == 0 || strlen($userid) == 0 || strlen($platform) == 0) {
         report_error(ERROR_MISSING_PARAMETER);
     }
     $result = $con->query("SELECT * FROM token WHERE userid = '$userid' AND token = '$token'");
@@ -48,13 +49,12 @@ function check_login($con) {
         report_error(ERROR_LOGIN_CHECK_FAILED);
     }
     $result = mysqli_fetch_array($result);
-    $type = $result["type"];
     $time = strtotime($result["latest_time"]) - time();
-    if ($type == "unknown") {
+    if ($platform == "Unknown") {
         $time += 24 * 3600; // 1天
-    } else if ($type == "web") {
+    } else if ($platform == "Web") {
         $time += 3 * 24 * 3600; // 3天
-    } else if ($type == "ios" || $type == "android") {
+    } else if ($platform == "iOS" || $platform == "Android") {
         $time += 15 * 24 * 3600; // 15天
     }
     if ($time < 0) {
@@ -63,7 +63,7 @@ function check_login($con) {
 
     // 更新 token
     $nowTime = date("Y-m-d G:i:s", time());
-    $con->query("UPDATE token set latest_time = '$nowTime' WHERE userid = '$userid' AND token = '$token'");
+    $con->query("UPDATE token set latest_time = '$nowTime' WHERE token = '$token'");
     check_sql_error($con);
 }
 

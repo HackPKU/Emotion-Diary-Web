@@ -29,5 +29,5 @@ Emotion Diary is a lightweight personal diary APP focused on privacy and conveni
 ## Face++ API 使用规范
 
 * `API_KEY` 和 `API_SECRET` 请向开发者索取
-* 人脸创建时使用有意义的 `PersonName`，可以是用户的账户名，`Tag` 使用 `iOS` `Android` 两者之一
+* 人脸创建时使用平台+时间格式的 `PersonName`，例如 `iOS_User_2016_05_01_12_00_00`，`Tag` 为平台名称，平台为 `iOS` `Android` 两者之一
 * 人脸创建的结果存于组中，开发时使用 `EmotionDiaryTest` 组，发布时使用 `EmotionDiary` 组

@@ -16,14 +16,14 @@ $con = db_connect();
 $name = filter($con, $_POST["name"]);
 $email = filter($con, $_POST["email"]);
 $password = filter($con, $_POST["password"]);
-$type = filter($con, $_POST["type"]);
+$platform = filter($con, $_POST["platform"]);
 
 if ((strlen($name) == 0 && strlen($email) == 0) || strlen($password) == 0) {
     report_error(ERROR_MISSING_PARAMETER);
 }
 
-if (!($type == "ios" || $type == "android" || $type == "web" || $type == "reset")) {
-    $type = "unknown";
+if (!($platform == "iOS" || $platform == "Android" || $platform == "Web")) {
+    $platform = "Unknown";
 }
 
 $result = null;
@@ -48,6 +48,6 @@ do {
     $con->query("SELECT * FROM token WHERE token = '$token'");
     check_sql_error($con);
 } while (mysqli_affected_rows($con) > 0);
-$con->query("INSERT INTO token (token, userid, type) VALUES ('$token', '$userid', '$type')");
+$con->query("INSERT INTO token (token, userid, platform) VALUES ('$token', '$userid', '$platform')");
 check_sql_error($con);
 report_success(array("userid" => $userid, "token" => $token));
