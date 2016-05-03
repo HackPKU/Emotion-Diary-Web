@@ -14,7 +14,6 @@ check_version();
 $con = db_connect();
 check_login($con);
 
-$diaryid = intval(filter($con, $_POST["diaryid"]));
 $userid = intval(filter($con, $_POST["userid"]));
 $emotion = intval(filter($con, $_POST["emotion"]));
 $selfie = filter($con, $_POST["selfie"]);
