@@ -118,7 +118,7 @@
 * `place_long` 地点经度，浮点数，范围 -180 ~ 180，可为空
 * `place_lat` 地点纬度，浮点数，范围 -90 ~ 90，可为空
 * `weather` 天气，字符串，可为空
-* `create_time` 创建时间，任意时间格式的字符串，可为空，为空表示当前时间
+* `create_time` 创建时间，使用北京时间，任意格式的字符串，可为空，为空表示当前时间
 
 ###### 返回
 
@@ -146,7 +146,7 @@
 * `place_long` 地点经度
 * `place_lat` 地点纬度
 * `weather` 天气
-* `create_time` 创建日期
+* `create_time` 创建日期，北京时间
 
 ## 同步日记
 
@@ -170,7 +170,7 @@
 	* `short_text` 日记正文，取前140字节
 	* `place_name` 地点名称
 	* `weather` 天气
-	* `create_time` 创建日期
+	* `create_time` 创建日期，北京时间
 
 ## 删除日记
 
