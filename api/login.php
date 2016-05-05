@@ -43,6 +43,7 @@ if (strtoupper($password) != strtoupper($result["password"])) {
 
 $userid = $result["userid"];
 $token = null;
+$name = $result["name"];
 do {
     $token = random_string();
     $con->query("SELECT * FROM token WHERE token = '$token'");
@@ -50,4 +51,4 @@ do {
 } while (mysqli_affected_rows($con) > 0);
 $con->query("INSERT INTO token (token, userid, platform) VALUES ('$token', '$userid', '$platform')");
 check_sql_error($con);
-report_success(array("userid" => $userid, "token" => $token));
+report_success(array("userid" => $userid, "token" => $token, "name" => $name));
