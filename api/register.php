@@ -80,6 +80,7 @@ if ($function == "edit") {
         $new_password = $password;
     }
     $con->query("UPDATE user SET name = '$name', password = '$new_password', sex = '$sex', email = '$email', icon = '$icon', faceid = '$faceid' WHERE userid = '$userid'");
+    check_sql_error($con);
     if ($changed_password) {
         $con->query("DELETE * FROM token WHERE userid = '$userid'");
         check_sql_error($con);
