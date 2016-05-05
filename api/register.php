@@ -89,5 +89,5 @@ if ($function == "edit") {
 } else {
     $platform = filter($con, $_POST["platform"]);
     $result = request_post("/login.php", array("name" => $name, "password" => $password, "platform" => $platform));
-    report_success(array("userid" => $result["data"]["userid"], "token" => $result["data"]["token"]));
+    report_success(array("userid" => $result["data"]["userid"], "token" => $result["data"]["token"], "name" => $result["data"]["name"]));
 }
