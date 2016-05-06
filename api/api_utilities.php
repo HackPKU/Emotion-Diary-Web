@@ -189,6 +189,14 @@ function is_url($data) {
 }
 
 /**
+ * @param string $password The password to convert
+ * @return string The converted password
+ */
+function md5_password($password) {
+    return strtoupper(md5(strtoupper($password) . EMOTION_DIARY_SALT));
+}
+
+/**
  * @param int $length Length of the random string
  * @return string The generated random string
  */

@@ -25,6 +25,10 @@ define('EMOTION_DIARY_DB_NAME', 'database_name_here');
 /** The database hostname. */
 define('EMOTION_DIARY_DB_HOSTNAME', 'localhost');
 
+//** Security settings. **//
+/** The password encryption salt. */
+define('EMOTION_DIARY_SALT', 'salt_here');
+
 //** Debug settings. **//
 /** Whether server should report errors. */
 define('EMOTION_DIARY_REPORT_ERRORS', false);
