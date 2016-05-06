@@ -21,7 +21,7 @@ Emotion Diary is a lightweight personal diary APP focused on privacy and conveni
 	* `USE 'databasename';`
 	* `SOURCE initialize.sql;`
 * 网站根目录下复制文件 `config.sample.php` 为 `config.php`
-* 编辑 `config.php` 文件，输入 MySQL 用户名、密码和数据库名，完成数据库配置
+* 编辑 `config.php` 文件，输入 MySQL 用户名、密码、数据库名和任意一段字符串作为数据库密码的 SALT，完成数据库配置
 * 运行 `db_connect_test.php` 以测试数据库配置是否成功
 * 终端下为 `images `文件夹赋予权限
 	* `chmod -R 777 images`
