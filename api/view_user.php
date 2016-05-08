@@ -32,9 +32,9 @@ $return = array(
     "sex" => $result["sex"],
     "icon" => $result["icon"],
 );
-if ($userid == $result["userid"]) { // 自己才能查看邮箱和 faceid
+if ($userid == $result["userid"]) { // 自己才能查看邮箱和 personid
     $return["email"] = $result["email"];
-    $return["faceid"] = $result["faceid"];
+    $return["personid"] = $result["personid"];
 }
 
 report_success($return);

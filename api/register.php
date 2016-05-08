@@ -20,7 +20,7 @@ $new_password = filter($con, $_POST["new_password"]);
 $sex = filter($con, $_POST["sex"]);
 $email = filter($con, $_POST["email"]);
 $icon = filter($con, $_POST["icon"]);
-$faceid = filter($con, $_POST["faceid"]);
+$personid = filter($con, $_POST["personid"]);
 $function = filter($con, $_POST["function"]);
 
 if ($function == "edit") {
@@ -80,7 +80,7 @@ if ($function == "edit") {
         $new_password = $password;
     }
     $md5_password = md5_password($new_password);
-    $con->query("UPDATE user SET name = '$name', password = '$md5_password', sex = '$sex', email = '$email', icon = '$icon', faceid = '$faceid' WHERE userid = '$userid'");
+    $con->query("UPDATE user SET name = '$name', password = '$md5_password', sex = '$sex', email = '$email', icon = '$icon', personid = '$personid' WHERE userid = '$userid'");
     check_sql_error($con);
     if ($changed_password) {
         $con->query("DELETE * FROM token WHERE userid = '$userid'");
@@ -88,7 +88,7 @@ if ($function == "edit") {
     }
 } else {
     $md5_password = md5_password($password);
-    $con->query("INSERT INTO user (name, password, sex, email, icon, faceid) VALUES ('$name', '$md5_password', '$sex', '$email', '$icon', '$faceid')");
+    $con->query("INSERT INTO user (name, password, sex, email, icon, personid) VALUES ('$name', '$md5_password', '$sex', '$email', '$icon', '$personid')");
     check_sql_error($con);
 }
 
