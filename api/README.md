@@ -27,7 +27,7 @@
 * `sex` 性别，其值为 `male` `female` 之一，可为空，为空表示保密
 * `email` 邮箱，可为空，不能超过 128 字节
 * `icon` 头像文件名，可为空
-* `faceid` Face++ 产生的人脸识别 ID，即返回的 `person_id` 字段，可为空
+* `personid` Face++ 产生的人脸识别 ID，即返回的 `person_id` 字段，可为空
 
 ###### 返回
 
@@ -80,7 +80,7 @@
 * `sex` 性别，其值为 `male` `female` `secret` 之一
 * `icon` 头像文件名，对应文件为 `/images/icon/xxx.jpg`
 * `email` 邮箱，只有当查看的是自己的信息时才会返回
-* `faceid` 人脸识别 ID，只有当查看的是自己的信息时才会返回
+* `personid` 人脸识别 ID，只有当查看的是自己的信息时才会返回
 
 ## 修改用户信息
 
@@ -96,7 +96,7 @@
 * `sex` 性别，参考注册 API 说明
 * `email` 邮箱，参考注册 API 说明
 * `icon` 头像文件名，参考注册 API 说明
-* `faceid` 人脸识别 ID，参考注册 API 说明
+* `personid` 人脸识别 ID，参考注册 API 说明
 
 ###### 返回
 
