@@ -74,6 +74,15 @@ if (strlen($email) > 0) {
     }
 }
 
+if (strlen($personid) > 0) {
+    $result = $con->query("SELECT * FROM user WHERE personid = '$personid'");
+    check_sql_error($con);
+    $result = mysqli_fetch_array($result);
+    if (!($function == "edit" && $userid == $result["userid"]) && mysqli_affected_rows($con) > 0) {
+        report_error(9, "该人脸已被注册");
+    }
+}
+
 if ($function == "edit") {
     $changed_password = (strlen($new_password) > 0);
     if (!$changed_password) {
