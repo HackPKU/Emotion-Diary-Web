@@ -40,8 +40,14 @@ if (strlen($share_key) == 0) {
     }
 }
 
-$images = explode(" | ", $result["images"]);
-$tags = explode(" | ", $result["tags"]);
+$images = null;
+$tags = null;
+if (strlen($result["images"]) > 0) {
+    $images = explode(" | ", $result["images"]);
+}
+if (strlen($result["tags"]) > 0) {
+    $tags = explode(" | ", $result["tags"]);
+}
 $return = array(
     "emotion" => $result["emotion"],
     "selfie" => $result["selfie"],
