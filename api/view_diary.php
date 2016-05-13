@@ -59,5 +59,6 @@ $return = array(
     "place_lat" => $result["place_lat"],
     "weather" => $result["weather"],
     "create_time" => $result["create_time"],
+    "is_shared" => (strlen($result["share_key"]) > 0),
 );
 report_success($return);

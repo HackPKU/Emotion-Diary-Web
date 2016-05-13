@@ -148,6 +148,7 @@
 * `place_lat` 地点纬度
 * `weather` 天气
 * `create_time` 创建日期，北京时间
+* `is_shared` 是否被分享
 
 ## 同步日记
 
