@@ -45,4 +45,4 @@ while ($diary = mysqli_fetch_array($result)) {
     $mini_diary["create_time"] = $diary["create_time"];
     array_push($return, $mini_diary);
 }
-report_success($return);
+report_success(array("diaries" => $return));
