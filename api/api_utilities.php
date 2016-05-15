@@ -250,3 +250,25 @@ function save_image($image, $type, $max_length = 200) {
         report_error(4, "图片储存失败");
     }
 }
+
+/**
+ * @param $result mysqli_result The MySQL diary query result
+ * @return array The mini version of a diary
+ */
+function create_mini_diary($result) {
+    $return = array();
+    while ($diary = mysqli_fetch_array($result)) {
+        $mini_diary = array();
+        $mini_diary["diaryid"] = $diary["diaryid"];
+        $mini_diary["emotion"] = $diary["emotion"];
+        $mini_diary["selfie"] = $diary["selfie"];
+        $mini_diary["has_image"] = (strlen($diary["images"]) > 0);
+        $mini_diary["has_tag"] = (strlen($diary["tags"]) > 0);
+        $mini_diary["short_text"] = substr($diary["text"], 0, 140);
+        $mini_diary["place_name"] = $diary["place_name"];
+        $mini_diary["weather"] = $diary["weather"];
+        $mini_diary["create_time"] = $diary["create_time"];
+        array_push($return, $mini_diary);
+    }
+    return $return;
+}
