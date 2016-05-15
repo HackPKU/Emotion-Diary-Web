@@ -214,7 +214,7 @@
 
 ###### 返回
 
-* `share_key` 分享秘钥，有此秘钥可不登陆查看日记，参考查看日记 API 说明
+* `share_key` 分享秘钥，有此秘钥可不登陆查看日记，参考查看日记 API 说明，网页版可通过 `/web/diary/?diaryid=xxx&share_key=xxx` 查看
 
 ## 查看分享列表
 
