@@ -41,7 +41,7 @@ function check_login($con) {
     $userid = intval(filter($con, $_POST["userid"]));
     $platform = filter($con, $_POST["platform"]);
     if (strlen($token) == 0 || strlen($userid) == 0 || strlen($platform) == 0) {
-        report_error(ERROR_MISSING_PARAMETER);
+        report_error(ERROR_LOGIN_CHECK_FAILED);
     }
     $result = $con->query("SELECT * FROM token WHERE userid = '$userid' AND token = '$token'");
     check_sql_error($con);

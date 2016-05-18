@@ -28,7 +28,7 @@ if (count($keywords) > 5) {
 }
 
 $conditions = create_search_query($keywords);
-$result = $con->query("SELECT * FROM diary WHERE userid = '$userid' AND $conditions");
+$result = $con->query("SELECT * FROM diary WHERE userid = '$userid' AND $conditions ORDER BY create_time");
 check_sql_error($con);
 report_success(array("diaries" => create_mini_diary($result)));
 
@@ -36,7 +36,7 @@ function create_search_query($keywords) {
     $return = "";
     for ($i = 0; $i < count($keywords); $i = $i + 1) {
         $keyword = $keywords[$i];
-        $return .= "CONCAT_WS(',', text, tags, place_name, weather) LIKE '%$keyword%'";
+        $return .= "CONCAT_WS(' ', text, tags, place_name, weather) LIKE '%$keyword%'";
         if ($i < count($keywords) - 1) {
             $return .= " AND ";
         }
