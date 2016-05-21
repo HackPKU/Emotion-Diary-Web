@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `userid` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(32) NOT NULL,
   `password` VARCHAR(32) NOT NULL,
+  `salt` VARCHAR(8) NOT NULL,
   `sex` VARCHAR(16) NOT NULL,
   `email` VARCHAR(128) NOT NULL,
   `icon` VARCHAR(8) NOT NULL,
@@ -46,5 +47,6 @@ CREATE TABLE IF NOT EXISTS `diary` (
   `place_lat` DOUBLE NOT NULL,
   `weather` VARCHAR(32) NOT NULL,
   `create_time` TIMESTAMP NOT NULL DEFAULT NOW(),
+  INDEX (`create_time`),
   FOREIGN KEY (`userid`) REFERENCES user(`userid`)
 );

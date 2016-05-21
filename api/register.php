@@ -53,7 +53,7 @@ if ($function == "edit") {
     $result = $con->query("SELECT * FROM user WHERE userid = '$userid'");
     check_sql_error($con);
     $result = mysqli_fetch_array($result);
-    if (md5_password($password) != strtoupper($result["password"])) {
+    if (md5_password($password, $result["salt"]) != strtoupper($result["password"])) {
         report_error(6, "密码错误");
     }
 }
@@ -83,21 +83,22 @@ if (strlen($personid) > 0) {
     }
 }
 
+$salt = random_string(6);
 if ($function == "edit") {
     $changed_password = (strlen($new_password) > 0);
     if (!$changed_password) {
         $new_password = $password;
     }
-    $md5_password = md5_password($new_password);
-    $con->query("UPDATE user SET name = '$name', password = '$md5_password', sex = '$sex', email = '$email', icon = '$icon', personid = '$personid' WHERE userid = '$userid'");
+    $md5_password = md5_password($new_password, $salt);
+    $con->query("UPDATE user SET name = '$name', password = '$md5_password', salt = '$salt', sex = '$sex', email = '$email', icon = '$icon', personid = '$personid' WHERE userid = '$userid'");
     check_sql_error($con);
     if ($changed_password) {
         $con->query("DELETE * FROM token WHERE userid = '$userid'");
         check_sql_error($con);
     }
 } else {
-    $md5_password = md5_password($password);
-    $con->query("INSERT INTO user (name, password, sex, email, icon, personid) VALUES ('$name', '$md5_password', '$sex', '$email', '$icon', '$personid')");
+    $md5_password = md5_password($password, $salt);
+    $con->query("INSERT INTO user (name, password, salt, sex, email, icon, personid) VALUES ('$name', '$md5_password', '$salt', '$sex', '$email', '$icon', '$personid')");
     check_sql_error($con);
 }
 

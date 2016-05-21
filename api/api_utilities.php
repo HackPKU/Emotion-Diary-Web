@@ -187,10 +187,11 @@ function is_url($data) {
 
 /**
  * @param string $password The password to convert
+ * @param string $salt The password salt
  * @return string The converted password
  */
-function md5_password($password) {
-    return strtoupper(md5(strtoupper($password) . EMOTION_DIARY_SALT));
+function md5_password($password, $salt) {
+    return strtoupper(md5(strtoupper($password) . $salt));
 }
 
 /**
